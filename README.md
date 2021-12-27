@@ -14,33 +14,49 @@ To write a program to find the Gaussian Elimination with partial pivoting of a m
 4. End the program. 
 
 ## Program:
-```
-/*
-Program to find the Gaussian Elimination with partial pivoting of a matrix.
+~~~
+*/
+'''Program to solve a matrix using Gaussian elimination with partial pivoting.
 Developed by: VISMAYA
 RegisterNumber: 21002841
-*/
+'''
 import numpy as np
-import scipy
-from scipy.linalg import lu
-A = np.array (eval(input()))
-P,L,U=lu(A)
-print(L)
-print(U)
- 
-import numpy as np
-from scipy.linalg import lu_factor, lu_solve
-A=eval(input())
-B=eval(input())
-lu,piv=lu_factor(A)
-x=lu_solve((lu, piv), B)
-print(x)
-```
+import sys
+n = int(input())
+a = np.zeros((n,n+1))
+x = np.zeros(n)
+
+for i in range(n):
+    for j in range(n+1):
+        a[i][j] = float(input())
+        
+for i in range(n):
+    if a[i][i] == 0.0:
+        sys.exit('Divide by zero detected!')
+        
+    for j in range(i+1, n):
+        ratio = a[j][i]/a[i][i]
+        
+        for k in range(n+1):
+            a[j][k] = a[j][k] - ratio * a[i][k]
+            
+x[n-1] = a[n-1][n]/a[n-1][n-1]
+        
+for i in range(n-2,-1,-1):
+    x[i] = a[i][n]
+    
+    for j in range(i+1,n):
+        x[i] = x[i] - a[i][j]*x[j]
+        
+    x[i] = x[i]/a[i][i]
+    
+for i in range(n):
+    print('X%d = %0.2f' %(i,x[i]), end = ' ')
 
 ## Output:
-![gaussian elimination]()
-![GitHub](gaussian1.png)
-![GitHub](gaussian2.png)
+~~~
+![GitHub](gaussian1.png) 
+
 
 
 ## Result:
